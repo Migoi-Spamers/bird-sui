@@ -1,22 +1,22 @@
 import colors from "colors";
 
 class TaskService {
-  constructor() {}
+  constructor() { }
 
   async getTaskList(user) {
     const skipTasks = [""];
     try {
-      const { data } = await user.http.get(0, "tasks");
-      if (data) {
-        let tasks = [];
-        for (const item of data) {
-          tasks = tasks.concat(item.tasks);
+      const tasks = user.tasks;
+
+      if (tasks) {
+        let tasks_ = [];
+        for (const item of tasks) {
+          tasks_ = tasks_.concat(item.tasks);
         }
-        return tasks.filter(
+        return tasks_.filter(
           (task) =>
-            !skipTasks.includes(task.name) &&
-            task.status !== "FINISHED" &&
-            !task.isHidden
+            !skipTasks.includes(task.type) &&
+            !task.is_claimed
         );
       } else {
         throw new Error(`Lấy danh sách nhiệm vụ thất bại: ${data?.message}`);
@@ -30,15 +30,14 @@ class TaskService {
   }
 
   async startTask(user, task) {
-    const param = `tasks/${task.id}/start`;
-    let taskName = task.title;
-    if (task.progressTarget) {
-      taskName = `${task.title} ${task.target} ${task.postfix}`;
-    }
+    const param = `completeTask`;
+    const body = {
+      type: task.type
+    };
     try {
-      const { data } = await user.http.post(0, param, {});
-      if (data && data.status === "STARTED") {
-        return "READY_FOR_CLAIM";
+      const { data } = await user.http.post(0, param, body);
+      if (data && data.result.is_completed) {
+        return true;
       } else {
         throw new Error(
           `Làm nhiệm vụ ${colors.blue(taskName)} thất bại: ${data?.message}`
@@ -50,7 +49,7 @@ class TaskService {
           `[${task.id}]`
         )} thất bại: ${error.response?.data?.message}`
       );
-      return "NOT_STARTED";
+      return false;
     }
   }
 
@@ -73,8 +72,7 @@ class TaskService {
         return true;
       } else {
         throw new Error(
-          `Claim phần thưởng nhiệm vụ ${colors.blue(taskName)} thất bại: ${
-            data?.message
+          `Claim phần thưởng nhiệm vụ ${colors.blue(taskName)} thất bại: ${data?.message
           }`
         );
       }
@@ -97,36 +95,20 @@ class TaskService {
     }
 
     const tasksErrorStart = [];
-    const tasksErrorClaim = [];
     for (const task of tasks) {
-      let complete = task.status;
-      if (complete === "NOT_STARTED" && task.type !== "PROGRESS_TARGET") {
+      let complete = task.is_claimed;
+      if (complete) {
         complete = await this.startTask(user, task);
-        if (complete === "NOT_STARTED") {
+        if (complete) {
           tasksErrorStart.push(task);
-        }
-      }
-      if (complete === "READY_FOR_CLAIM") {
-        const statusClaim = await this.claimTask(user, task);
-        if (!statusClaim) {
-          tasksErrorClaim.push(task);
         }
       }
     }
 
-    if (tasksErrorStart.length || tasksErrorClaim.length) {
+    if (tasksErrorStart.length) {
       user.log.log(colors.magenta("Chạy lại các nhiệm vụ bị lỗi..."));
       for (const task of tasksErrorStart) {
-        let complete = task.status;
-        if (complete === "NOT_STARTED" && task.type !== "PROGRESS_TARGET") {
-          complete = await this.startTask(user, task);
-        }
-        if (complete === "READY_FOR_CLAIM") {
-          await this.claimTask(user, task);
-        }
-      }
-      for (const task of tasksErrorClaim) {
-        await this.claimTask(user, task);
+        complete = await this.startTask(user, task);
       }
     }
   }

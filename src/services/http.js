@@ -1,13 +1,11 @@
 import axios from "axios";
 import { HttpsProxyAgent } from "https-proxy-agent";
+import https from "https";
 
 export class HttpService {
   constructor(log, proxy = null) {
     this.baseURL = [
-      "https://game-domain.blum.codes/api/v1/",
-      "https://gateway.blum.codes/v1/",
-      "https://tribe-domain.blum.codes/api/v1/",
-      "https://tribe-domain.blum.codes/api/v1/",
+      "https://api.agent301.org/"
     ];
     this.proxy = proxy;
     this.log = log;
@@ -15,19 +13,15 @@ export class HttpService {
     this.refreshToken = null;
     this.isConnected = false;
     this.headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json, text/plain, */*",
-      "Sec-Fetch-Site": "same-site",
-      "Accept-Language": "vi-VN,vi;q=0.9",
-      "Accept-Encoding": "gzip, deflate, br",
-      "Sec-Fetch-Mode": "cors",
-      // Host: "tgapp-api.matchain.io",
-      Origin: "https://telegram.blum.codes",
-      "User-Agent":
-        "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
-      Referer: "https://telegram.blum.codes/",
-      Connection: "keep-alive",
-      "Sec-Fetch-Dest": "empty",
+      'Accept': 'application/json, text/plain, */*',
+      'Accept-Language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
+      'Content-Type': 'application/json',
+      'Origin': 'https://telegram.agent301.org',
+      'Referer': 'https://telegram.agent301.org/',
+      'Sec-Ch-Ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+      'Sec-Ch-Ua-Mobile': '?1',
+      'Sec-Ch-Ua-Platform': '"Android"',
+      'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
     };
   }
 
@@ -49,7 +43,7 @@ export class HttpService {
     };
 
     if (this.token) {
-      headers["Authorization"] = `Bearer ${this.token}`;
+      headers["Authorization"] = `${this.token}`;
     }
     const config = {
       headers,

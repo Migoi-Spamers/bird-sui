@@ -31,20 +31,18 @@ const run = async (user) => {
 
     // Đăng nhập tài khoản
     const login = await authService.handleLogin(user);
-    if (!login.status) {
+
+    if (!login) {
       await delayHelper.delay(60);
       continue;
     }
     await dailyService.checkin(user);
-    await tribeService.handleTribe(user);
+    await dailyService.wheelCheckin(user);
+
     await taskService.handleTask(user);
-    await inviteClass.handleInvite(user);
-    const awaitTime = await farmingClass.handleFarming(
-      user,
-      login.profile?.farming
-    );
-    await gameService.handleGame(user, login.profile?.playPasses);
-    await delayHelper.delay((awaitTime + 1) * 60);
+    await gameService.handleGame(user, user.tickets);
+    await delayHelper.delay(user.loop * 10 + 30);
+    user.loop += 1;
   }
 };
 

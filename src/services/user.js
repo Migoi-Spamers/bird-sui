@@ -6,7 +6,7 @@ import { LogHelper } from "../helpers/log.js";
 import { HttpService } from "./http.js";
 
 class UserService {
-  constructor() {}
+  constructor() { }
 
   loadUser() {
     const rawUsers = fileHelper.readFile("users.txt");
@@ -54,6 +54,10 @@ class UserService {
           http,
           log,
           currency: colors.green.bold(" ₿"),
+          loop: 0,
+          update(name, value) {
+            this[name] = value;
+          }
         };
       });
       return result;

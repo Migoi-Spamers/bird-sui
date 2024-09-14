@@ -3,22 +3,23 @@ import delayHelper from "../helpers/delay.js";
 import generatorHelper from "../helpers/generator.js";
 
 class GameService {
-  constructor() {}
+  constructor() { }
 
-  async playGame(user) {
+  async spin(user) {
     try {
-      const { data } = await user.http.post(0, "game/play", {});
+      const { data } = await user.http.post(0, "wheel/spin", {});
       if (data) {
         user.log.log(
-          `Bắt đầu chơi game, kết thúc và nhận thưởng sau: ${colors.blue(
-            "30s"
-          )}`
+          `Bắt đầu spin wheel, kết thúc và nhận thưởng: ${data.result.reward}`
         );
-        return data.gameId;
+        user.log.log(`Chờ 10 giây spin lần tiếp theo`);
+        await delayHelper.delay(10);
+        return 1;
       } else {
         throw new Error(`Chơi game thất bại: ${data.message}`);
       }
     } catch (error) {
+      console.log(error);
       if (error.response?.data?.message === "not enough play passes") {
         return 2;
       } else {
@@ -26,28 +27,7 @@ class GameService {
           `Chơi game thất bại: ${error.response?.data?.message}`
         );
       }
-      return null;
-    }
-  }
-
-  async claimGame(user, gameId) {
-    const points = generatorHelper.randomInt(180, 200);
-    const body = { gameId, points };
-    try {
-      const { data } = await user.http.post(0, "game/claim", body);
-      if (data) {
-        user.log.log(
-          `Chơi game xong, phần thưởng: ${colors.green(points + user.currency)}`
-        );
-        return true;
-      } else {
-        throw new Error(`Nhận thưởng chơi game thất bại: ${data.message}`);
-      }
-    } catch (error) {
-      user.log.logError(
-        `Nhận thưởng chơi game thất bại: ${error.response?.data?.message}`
-      );
-      return false;
+      return 0;
     }
   }
 
@@ -61,17 +41,17 @@ class GameService {
         continue;
       }
       await delayHelper.delay(2);
-      const gameId = await this.playGame(user);
-      if (gameId === 2) {
+      const status = await this.spin(user);
+
+      if (status == 2) {
         gameCount = 0;
+        continue
+      }
+      if (status == 1) {
+        gameCount--;
         continue;
       }
-      if (gameId) {
-        errorCount = 0;
-        await delayHelper.delay(32);
-        const statusClaim = await this.claimGame(user, gameId);
-        if (statusClaim) gameCount--;
-      } else {
+      if (status == 0) {
         errorCount++;
       }
     }
