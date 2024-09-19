@@ -1,4 +1,4 @@
-# Tool Auto Vana NodeJS by JeffJack
+# Tool Auto Vana NodeJS by JJ
 
 **Tool phát triển và chia sẻ miễn phí bởi JJ**
 
@@ -46,13 +46,4 @@
 
 > Phiên bản mới nhất: `v0.0.1`
 
-<details>
-<summary>v0.0.1 - 📅 02/09/2024</summary>
-  
-- Điều chỉnh điểm point chơi game về đúng với thực tế (từ 180 - 200)
-</details>
-<details>
-<summary>v0.0.1 - 📅 19/09/2024</summary>
-  
-- Chia sẽ tool đến cộng đồng
-</details>
+No update, anything you want to know ask me
