@@ -2,9 +2,6 @@
 
 **Tool phát triển và chia sẻ miễn phí bởi ZuyDD**
 
-<a href="https://www.facebook.com/zuy.dd"><img src="https://raw.githubusercontent.com/zuydd/image/main/facebook.svg" alt="Facebook"></a>
-<a href="https://t.me/zuydd"><img src="https://raw.githubusercontent.com/zuydd/image/main/telegram.svg" alt="Telegram"></a>
-
 > [!WARNING]
 > Mọi hành vi buôn bán tool dưới bất cứ hình thức nào đều không được cho phép!
 
@@ -36,12 +33,8 @@
 
 ## 🕹️ Các tính năng có trong tool
 
-- tự động điểm danh hàng ngày
-- tự động tham gia tribe để nhận thêm 10% điểm thưởng
-- tự động làm nhiệm vụ
-- tự động farming/claim khi tới giờ
+- tự động farming 20s
 - tự động chơi game
-- claim điểm invite
 - nhận diện proxy tự động, tự động kết nối lại proxy khi bị lỗi. ae ai chạy proxy thì thêm vào file proxy.txt ở dòng ứng với dòng chứa acc muốn chạy proxy đó, acc nào không muốn chạy proxy thì để trống hoặc gõ skip vào
 - đa luồng chạy bao nhiêu acc cũng được, không bị block lẫn nhau
 - Mặc định ở vòng lặp đầu tiên mỗi tài khoản (luồng) sẽ chạy cách nhau 30s để tránh spam request, có thể tìm biến `DELAY_ACC = 30` trong file [index.js](src/run/index.js) để điều chỉnh cho phù hợp
@@ -51,28 +44,15 @@
 > - Vì server nó hay lỗi vào khung giờ 14h-24h nên khuyến khích ae chạy tool lần đầu vào khung giờ 4h-12h để chạy mượt mà nhé
 ## 🔄 Lịch sử cập nhật
 
-> Phiên bản mới nhất: `v0.0.2`
+> Phiên bản mới nhất: `v0.0.1`
 
 <details>
-<summary>v0.0.2 - 📅 02/09/2024</summary>
+<summary>v0.0.1 - 📅 02/09/2024</summary>
   
 - Điều chỉnh điểm point chơi game về đúng với thực tế (từ 180 - 200)
 </details>
 <details>
-<summary>v0.0.1 - 📅 02/09/2024</summary>
+<summary>v0.0.1 - 📅 19/09/2024</summary>
   
 - Chia sẽ tool đến cộng đồng
 </details>
-
-## 🎁 Donate
-
-Chúng tôi rất vui được chia sẻ các mã script và tài nguyên mã nguồn miễn phí đến cộng đồng làm airdrop. Nếu bạn thấy các công cụ và tài liệu của chúng tôi hữu ích và muốn ủng hộ chúng tôi tiếp tục phát triển và duy trì các dự án này, bạn có thể đóng góp hỗ trợ qua hình thức donate.
-
-Mỗi đóng góp của bạn sẽ giúp chúng tôi duy trì chất lượng dịch vụ và tiếp tục cung cấp những tài nguyên giá trị cho cộng đồng làm airdrop. Chúng tôi chân thành cảm ơn sự hỗ trợ và ủng hộ của bạn!
-
-Mãi iu 😘😘😘
-
-<div style="display: flex; gap: 20px;">
-  <img src="https://raw.githubusercontent.com/zuydd/image/main/qr-momo.png" alt="QR Momo" height="340" />
-  <img src="https://raw.githubusercontent.com/zuydd/image/main/qr-binance.jpg" alt="QR Binance" height="340" />
-</div>
