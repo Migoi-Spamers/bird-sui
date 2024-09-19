@@ -1,6 +1,5 @@
 import colors from "colors";
 import fileHelper from "../helpers/file.js";
-import tokenHelper from "../helpers/token.js";
 
 class AuthService {
   constructor() { }
@@ -73,10 +72,12 @@ class AuthService {
     const token = info.token || null;
     user.http.updateToken(token);
     fileHelper.saveToken(user.info.id, token);
+    const playerInfo = await this.getPlayer(user);
     user.log.log(
       colors.green("Đăng nhập thành công: ") +
       `${user.info.fullName.green}`
     );
+    user.log.log(`Tổng điểm: ${playerInfo.points}`);
   }
 }
 

@@ -1,4 +1,3 @@
-import colors from "colors";
 import delayHelper from "../helpers/delay.js";
 import generatorHelper from "../helpers/generator.js";
 
@@ -18,7 +17,6 @@ class GameService {
       );
       return 1;
     } catch (error) {
-      console.log(error);
       user.log.logError(
         `Mint thất bại: ${error.response?.data?.message}`
       );
@@ -29,7 +27,15 @@ class GameService {
   async handleGame(user) {
     user.log.log(`---- Bắt đầu mint ---`);
     while (true) {
-      await this.mint(user);
+      const skipOrNot = generatorHelper.randomInt(0, 10);
+      if (skipOrNot > 0 && skipOrNot < 10) {
+        await this.mint(user);
+      } else {
+        await delayHelper.delay(21);
+        user.log.log(
+          `Bỏ qua một lượt mint`
+        );
+      }
     }
   }
 }
