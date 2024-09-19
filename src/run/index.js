@@ -1,12 +1,7 @@
 import colors from "colors";
 import delayHelper from "../helpers/delay.js";
 import authService from "../services/auth.js";
-import dailyService from "../services/view.js";
-import farmingClass from "../services/farming.js";
 import gameService from "../services/game.js";
-import inviteClass from "../services/invite.js";
-import taskService from "../services/task.js";
-import tribeService from "../services/tribe.js";
 import userService from "../services/user.js";
 
 // Điều chỉnh khoảng cách thời gian chạy vòng lặp đầu tiên giữa 2 tài khoản tránh bị spam request (tính bằng giây)
@@ -46,21 +41,16 @@ const run = async (user) => {
 
 console.log(
   colors.yellow.bold(
-    `=============  Tool phát triển và chia sẻ miễn phí bởi ZuyDD  =============`
+    `=============  Tool được fork và phát triển nội bộ bởi JeffJack  =============`
   )
 );
 console.log(
-  "Mọi hành vi buôn bán tool dưới bất cứ hình thức nào đều không được cho phép!"
-);
-console.log(
-  `Telegram: ${colors.green(
-    "https://t.me/zuydd"
-  )}  ___  Facebook: ${colors.blue("https://www.facebook.com/zuy.dd")}`
+  "Mọi hành vi buôn bán tool dưới bất cứ hình thức nào đều phải thông qua JeffJack!"
 );
 console.log(
   `🚀 Cập nhật các tool mới nhất tại: 👉 ${colors.gray(
-    "https://github.com/zuydd"
-  )} 👈`
+    "https://github.com/thanhdat240220"
+  )} 👈 Nhắn tin đăng kí để được join private group`
 );
 console.log("");
 console.log("");

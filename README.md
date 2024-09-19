@@ -1,6 +1,4 @@
-![Blum banner](https://raw.githubusercontent.com/zuydd/image/main/blum.jpeg)
-
-# Tool Auto Blum NodeJS by ZuyDD
+# Tool Auto Vana NodeJS by JeffJack
 
 **Tool phát triển và chia sẻ miễn phí bởi ZuyDD**
 
@@ -14,7 +12,7 @@
 
 > Yêu cầu đã cài đặt NodeJS
 
-- Bước 1: Tải về phiên bản mới nhất của tool [tại đây ⬇️](https://github.com/zuydd/blum/archive/refs/heads/main.zip)
+- Bước 1: Tải về phiên bản mới nhất của tool
 - Bước 2: Giải nén tool
 - Bước 3: Tại thư mục tool vừa giải nén (thư mục có chứa file package.json), chạy lệnh `npm install` để cài đặt các thư viện bổ trợ
 
