@@ -34,12 +34,6 @@ class UserService {
         let query_id = user;
         if (user && user.includes("query_id%3D")) {
           query_id = he.decode(decodeURIComponent(query_id));
-          if (!query_id.includes("start_param")) {
-            query_id += "&start_param=ref_9m5hchoOPE";
-          } else {
-            const newText = "ref_9m5hchoOPE";
-            query_id = query_id.replace(/(start_param=)[^&]*/, `$1${newText}`);
-          }
         }
         return {
           query_id,
@@ -54,7 +48,6 @@ class UserService {
           http,
           log,
           currency: colors.green.bold(" ₿"),
-          loop: 0,
           update(name, value) {
             this[name] = value;
           }

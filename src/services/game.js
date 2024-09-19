@@ -5,58 +5,32 @@ import generatorHelper from "../helpers/generator.js";
 class GameService {
   constructor() { }
 
-  async spin(user) {
+  async mint(user) {
     try {
-      const { data } = await user.http.post(0, "wheel/spin", {});
-      if (data) {
-        user.log.log(
-          `Bắt đầu spin wheel, kết thúc và nhận thưởng: ${data.result.reward}`
-        );
-        user.log.log(`Chờ 10 giây spin lần tiếp theo`);
-        await delayHelper.delay(10);
-        return 1;
-      } else {
-        throw new Error(`Chơi game thất bại: ${data.message}`);
-      }
+      const points = generatorHelper.randomInt(25, 45);
+      await delayHelper.delay(21);
+      await user.http.post(1, "tasks/1", {
+        points: points,
+        status: "completed"
+      });
+      user.log.log(
+        `Kết thúc mint và nhận thưởng: ${points} points`
+      );
+      return 1;
     } catch (error) {
       console.log(error);
-      if (error.response?.data?.message === "not enough play passes") {
-        return 2;
-      } else {
-        user.log.logError(
-          `Chơi game thất bại: ${error.response?.data?.message}`
-        );
-      }
+      user.log.logError(
+        `Mint thất bại: ${error.response?.data?.message}`
+      );
       return 0;
     }
   }
 
-  async handleGame(user, playPasses) {
-    user.log.log(`Còn ${colors.blue(playPasses + " lượt")} chơi game`);
-    let gameCount = playPasses || 0;
-    let errorCount = 0;
-    while (gameCount > 0) {
-      if (errorCount > 20) {
-        gameCount = 0;
-        continue;
-      }
-      await delayHelper.delay(2);
-      const status = await this.spin(user);
-
-      if (status == 2) {
-        gameCount = 0;
-        continue
-      }
-      if (status == 1) {
-        gameCount--;
-        continue;
-      }
-      if (status == 0) {
-        errorCount++;
-      }
+  async handleGame(user) {
+    user.log.log(`---- Bắt đầu mint ---`);
+    while (true) {
+      await this.mint(user);
     }
-    if (playPasses > 0)
-      user.log.log(colors.magenta("Đã dùng hết lượt chơi game"));
   }
 }
 

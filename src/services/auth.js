@@ -12,6 +12,38 @@ class AuthService {
     };
   }
 
+  async getView(user) {
+    try {
+      const { data } = await user.http.get(0, "player");
+      if (data) {
+        return data;
+      } else {
+        throw new Error(`Lấy layer thất bại: ${data.message}`);
+      }
+    } catch (error) {
+      user.log.logError(
+        `Lấy layer thất bại: ${error.response?.data?.message}`
+      );
+      return 0;
+    }
+  }
+
+  async getPlayer(user) {
+    try {
+      const { data } = await user.http.get(1, "player");
+      if (data) {
+        return data;
+      } else {
+        throw new Error(`Lấy layer thất bại: ${data.message}`);
+      }
+    } catch (error) {
+      user.log.logError(
+        `Lấy layer thất bại: ${error.response?.data?.message}`
+      );
+      return 0;
+    }
+  }
+
   async handleLogin(user) {
     console.log(
       `============== Chạy tài khoản ${user.index} | ${user.info.fullName.green} ==============`

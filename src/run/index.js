@@ -1,7 +1,7 @@
 import colors from "colors";
 import delayHelper from "../helpers/delay.js";
 import authService from "../services/auth.js";
-import dailyService from "../services/daily.js";
+import dailyService from "../services/view.js";
 import farmingClass from "../services/farming.js";
 import gameService from "../services/game.js";
 import inviteClass from "../services/invite.js";
@@ -14,7 +14,8 @@ const DELAY_ACC = 30;
 
 const run = async (user) => {
   await delayHelper.delay((user.index - 1) * DELAY_ACC);
-  while (true) {
+  let isDoneAccount = false;
+  while (!isDoneAccount) {
     // Kiểm tra kết nối proxy
     let isProxyConnected = false;
     while (!isProxyConnected) {
@@ -36,13 +37,10 @@ const run = async (user) => {
       await delayHelper.delay(60);
       continue;
     }
-    await dailyService.checkin(user);
-    await dailyService.wheelCheckin(user);
 
-    await taskService.handleTask(user);
-    await gameService.handleGame(user, user.tickets);
-    await delayHelper.delay(user.loop * 10 + 30);
-    user.loop += 1;
+    // await taskService.handleTask(user);
+    await gameService.handleGame(user);
+    await delayHelper.delay(30);
   }
 };
 

@@ -5,7 +5,8 @@ import https from "https";
 export class HttpService {
   constructor(log, proxy = null) {
     this.baseURL = [
-      "https://api.agent301.org/"
+      "https://www.vanadatahero.com/_vercel/insights/",
+      "https://www.vanadatahero.com/api/"
     ];
     this.proxy = proxy;
     this.log = log;
@@ -16,8 +17,8 @@ export class HttpService {
       'Accept': 'application/json, text/plain, */*',
       'Accept-Language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
       'Content-Type': 'application/json',
-      'Origin': 'https://telegram.agent301.org',
-      'Referer': 'https://telegram.agent301.org/',
+      'Sec-Fetch-Site': 'same-origin',
+      'Referer': 'https://www.vanadatahero.com/home',
       'Sec-Ch-Ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
       'Sec-Ch-Ua-Mobile': '?1',
       'Sec-Ch-Ua-Platform': '"Android"',
@@ -43,7 +44,7 @@ export class HttpService {
     };
 
     if (this.token) {
-      headers["Authorization"] = `${this.token}`;
+      headers["x-telegram-web-app-init-data"] = `${this.token}`;
     }
     const config = {
       headers,
