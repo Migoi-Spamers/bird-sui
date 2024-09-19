@@ -1,6 +1,6 @@
 # Tool Auto Vana NodeJS by JeffJack
 
-**Tool phát triển và chia sẻ miễn phí bởi ZuyDD**
+**Tool phát triển và chia sẻ miễn phí bởi JJ**
 
 > [!WARNING]
 > Mọi hành vi buôn bán tool dưới bất cứ hình thức nào đều không được cho phép!
