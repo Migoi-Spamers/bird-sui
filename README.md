@@ -1,9 +1,9 @@
 # Tool Auto Vana NodeJS by JJ
 
-**Tool phát triển và chia sẻ miễn phí bởi JJ**
+**Tool fork và develop bởi JJ**
 
 > [!WARNING]
-> Mọi hành vi buôn bán tool dưới bất cứ hình thức nào đều không được cho phép!
+> Mọi hành vi buôn bán tool dưới bất cứ hình thức nào đều phai thông qua JJ!
 
 ## 🛠️ Hướng dẫn cài đặt
 
