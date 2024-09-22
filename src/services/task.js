@@ -4,22 +4,19 @@ class TaskService {
   constructor() { }
 
   async getTaskList(user) {
-    const skipTasks = [""];
+    const skipTasks = [1, 5, 17, 25, 28];
     try {
-      const tasks = user.tasks;
-
-      if (tasks) {
-        let tasks_ = [];
-        for (const item of tasks) {
-          tasks_ = tasks_.concat(item.tasks);
-        }
-        return tasks_.filter(
+      const { data } = await user.http.get(1, 'tasks');
+      if (data?.tasks) {
+        return data.tasks.filter(
           (task) =>
-            !skipTasks.includes(task.type) &&
-            !task.is_claimed
+            !skipTasks.includes(task.id) &&
+            task.claimType === 'immediate' &&
+            task.completed.length === 0 &&
+            (new Date(task.expiresAt).getTime() > Date.now())
         );
       } else {
-        throw new Error(`Lấy danh sách nhiệm vụ thất bại: ${data?.message}`);
+        throw new Error(`Lấy danh sách nhiệm vụ thất bại`);
       }
     } catch (error) {
       user.log.logError(
@@ -29,51 +26,26 @@ class TaskService {
     }
   }
 
-  async startTask(user, task) {
-    const param = `completeTask`;
-    const body = {
-      type: task.type
-    };
-    try {
-      const { data } = await user.http.post(0, param, body);
-      if (data && data.result.is_completed) {
-        return true;
-      } else {
-        throw new Error(
-          `Làm nhiệm vụ ${colors.blue(taskName)} thất bại: ${data?.message}`
-        );
-      }
-    } catch (error) {
-      user.log.logError(
-        `Làm nhiệm vụ ${colors.blue(taskName)} - ${colors.gray(
-          `[${task.id}]`
-        )} thất bại: ${error.response?.data?.message}`
-      );
-      return false;
-    }
-  }
-
   async claimTask(user, task) {
-    const param = `tasks/${task.id}/claim`;
-    let taskName = task.title;
-    if (task.progressTarget) {
-      taskName = `${task.title} ${task.target} ${task.postfix}`;
-    }
+    let taskName = task.name;
     try {
-      const { data } = await user.http.post(0, param, {});
+      const { data } = await user.http.post(1, `tasks/${task.id}`, {
+        points: task.points,
+        status: "completed"
+      });
+      console.log(data);
       if (data && data.status === "FINISHED") {
         user.log.log(
           `Làm nhiệm vụ ${colors.blue(
             taskName
           )} thành công, phần thưởng: ${colors.green(
-            task.reward + user.currency
-          )}`
+            task.points
+          )} points`
         );
         return true;
       } else {
         throw new Error(
-          `Claim phần thưởng nhiệm vụ ${colors.blue(taskName)} thất bại: ${data?.message
-          }`
+          `Claim phần thưởng nhiệm vụ ${colors.blue(taskName)} thất bại: ${data?.message}`
         );
       }
     } catch (error) {
@@ -96,12 +68,9 @@ class TaskService {
 
     const tasksErrorStart = [];
     for (const task of tasks) {
-      let complete = task.is_claimed;
+      let complete = await this.claimTask(user, task);
       if (complete) {
-        complete = await this.startTask(user, task);
-        if (complete) {
-          tasksErrorStart.push(task);
-        }
+        tasksErrorStart.push(task);
       }
     }
 

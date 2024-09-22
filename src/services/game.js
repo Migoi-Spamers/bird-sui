@@ -6,7 +6,7 @@ class GameService {
 
   async mint(user) {
     try {
-      const points = generatorHelper.randomInt(25, 45);
+      const points = generatorHelper.randomInt(30, 50);
       await delayHelper.delay(21);
       await user.http.post(1, "tasks/1", {
         points: points,
@@ -17,6 +17,7 @@ class GameService {
       );
       return 1;
     } catch (error) {
+      console.log(error)
       user.log.logError(
         `Mint thất bại: ${error.response?.data?.message}`
       );
@@ -28,14 +29,14 @@ class GameService {
     user.log.log(`---- Bắt đầu mint ---`);
     while (true) {
       const skipOrNot = generatorHelper.randomInt(0, 10);
-      if (skipOrNot > 0 && skipOrNot < 10) {
-        await this.mint(user);
-      } else {
-        await delayHelper.delay(21);
-        user.log.log(
-          `Bỏ qua một lượt mint`
-        );
-      }
+      await this.mint(user);
+      // if (skipOrNot > 0 && skipOrNot < 10) {
+      // } else {
+      //   await delayHelper.delay(21);
+      //   user.log.log(
+      //     `Bỏ qua một lượt mint`
+      //   );
+      // }
     }
   }
 }
