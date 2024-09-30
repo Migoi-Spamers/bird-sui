@@ -6,7 +6,7 @@ import taskService from "../services/task.js";
 import userService from "../services/user.js";
 
 // Điều chỉnh khoảng cách thời gian chạy vòng lặp đầu tiên giữa 2 tài khoản tránh bị spam request (tính bằng giây)
-const DELAY_ACC = 30;
+const DELAY_ACC = 3;
 
 const run = async (user) => {
   await delayHelper.delay((user.index - 1) * DELAY_ACC);

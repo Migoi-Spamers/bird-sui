@@ -6,7 +6,7 @@ class GameService {
 
   async mint(user) {
     try {
-      const points = generatorHelper.randomInt(70, 100);
+      const points = generatorHelper.randomInt(50, 70);
       await delayHelper.delay(21);
       await user.http.post(1, "tasks/1", {
         points: points,
@@ -17,9 +17,8 @@ class GameService {
       );
       return 1;
     } catch (error) {
-      console.log(error)
       user.log.logError(
-        `Mint thất bại: ${error.response?.data?.message}`
+        `Mint thất bại: ${error.response?.data?.error}`
       );
       return 0;
     }

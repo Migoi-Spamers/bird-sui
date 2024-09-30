@@ -30,7 +30,7 @@ class UserService {
         const info = JSON.parse(userParse.user);
         const proxy = proxies[index] || null;
         const log = new LogHelper(index + 1, info.id);
-        const http = new HttpService(log, proxy);
+        const http = new HttpService(log, proxy, user);
         let query_id = user;
         if (user && user.includes("query_id%3D")) {
           query_id = he.decode(decodeURIComponent(query_id));

@@ -14,10 +14,11 @@ class AuthService {
   async getView(user) {
     try {
       const { data } = await user.http.get(0, "player");
+      console.log(data);
       if (data) {
         return data;
       } else {
-        throw new Error(`Lấy layer thất bại: ${data.message}`);
+        throw new Error(`Lấy player thất bại: ${data.message}`);
       }
     } catch (error) {
       user.log.logError(
@@ -37,7 +38,7 @@ class AuthService {
       }
     } catch (error) {
       user.log.logError(
-        `Lấy layer thất bại: ${error.response?.data?.message}`
+        `Lấy layer thất bại: ${error.response?.data?.error}`
       );
       return 0;
     }
@@ -49,7 +50,7 @@ class AuthService {
     );
 
     let token = fileHelper.getTokenById(user.info.id);
-    if (token) {
+    if (false) {
       const info = { token };
       await this.handleAfterLogin(user, info);
       return 1;
@@ -70,7 +71,7 @@ class AuthService {
 
   async handleAfterLogin(user, info) {
     const token = info.token || null;
-    user.http.updateToken(token);
+    // user.http.updateToken(token);
     fileHelper.saveToken(user.info.id, token);
     const playerInfo = await this.getPlayer(user);
     user.log.log(

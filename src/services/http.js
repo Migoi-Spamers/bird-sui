@@ -3,14 +3,14 @@ import { HttpsProxyAgent } from "https-proxy-agent";
 import https from "https";
 
 export class HttpService {
-  constructor(log, proxy = null) {
+  constructor(log, proxy = null, token) {
     this.baseURL = [
       "https://www.vanadatahero.com/_vercel/insights/",
       "https://www.vanadatahero.com/api/"
     ];
     this.proxy = proxy;
     this.log = log;
-    this.token = null;
+    this.token = token;
     this.refreshToken = null;
     this.isConnected = false;
     this.headers = {
