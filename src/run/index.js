@@ -34,7 +34,7 @@ const run = async (user) => {
       continue;
     }
 
-    // await taskService.handleTask(user);
+    await taskService.handleTask(user);
     await gameService.handleGame(user);
     await delayHelper.delay(30);
   }

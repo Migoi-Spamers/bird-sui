@@ -4,7 +4,7 @@ class TaskService {
   constructor() { }
 
   async getTaskList(user) {
-    const skipTasks = [1, 5, 17, 25, 28];
+    const skipTasks = [1, 5, 17, 25, 28, 109, 110];
     try {
       const { data } = await user.http.get(1, 'tasks');
       if (data?.tasks) {
@@ -29,12 +29,11 @@ class TaskService {
   async claimTask(user, task) {
     let taskName = task.name;
     try {
-      const { data } = await user.http.post(1, `tasks/${task.id}`, {
+      const data = await user.http.post(1, `tasks/${task.id}`, {
         points: task.points,
         status: "completed"
       });
-      console.log(data);
-      if (data && data.status === "FINISHED") {
+      if (data && data.status === 200) {
         user.log.log(
           `Làm nhiệm vụ ${colors.blue(
             taskName
@@ -71,13 +70,6 @@ class TaskService {
       let complete = await this.claimTask(user, task);
       if (complete) {
         tasksErrorStart.push(task);
-      }
-    }
-
-    if (tasksErrorStart.length) {
-      user.log.log(colors.magenta("Chạy lại các nhiệm vụ bị lỗi..."));
-      for (const task of tasksErrorStart) {
-        complete = await this.startTask(user, task);
       }
     }
   }

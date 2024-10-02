@@ -6,7 +6,7 @@ class GameService {
 
   async mint(user) {
     try {
-      const points = generatorHelper.randomInt(50, 70);
+      const points = generatorHelper.randomInt(70,90);
       await delayHelper.delay(21);
       await user.http.post(1, "tasks/1", {
         points: points,
