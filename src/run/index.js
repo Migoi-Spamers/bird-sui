@@ -43,7 +43,9 @@ const run = async (user) => {
     await delayHelper.delay(30);
     tryTime++;
     if (tryTime === TRY_TIME) {
-      user.log.log(`Đã thử ${TRY_TIME} tài khoản này, bỏ qua tài khoản`);
+      user.log.log(`Đã thử ${colors.blue(TRY_TIME)} lần tài khoản này, chờ chạy lại sau 30 phút`);
+      await delayHelper.delay(60 * 30);
+      tryTime = 0;
     }
   }
 };

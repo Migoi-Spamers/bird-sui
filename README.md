@@ -1,4 +1,4 @@
-# Tool Auto Vana NodeJS by JJ
+# Tool Auto BIRD-SUI NodeJS by JJ
 
 **Tool fork và develop bởi JJ**
 
