@@ -4,14 +4,18 @@ import authService from "../services/auth.js";
 import gameService from "../services/game.js";
 import taskService from "../services/task.js";
 import userService from "../services/user.js";
+import MintService from "../services/mint.js";
 
 // Điều chỉnh khoảng cách thời gian chạy vòng lặp đầu tiên giữa 2 tài khoản tránh bị spam request (tính bằng giây)
 const DELAY_ACC = 3;
+const TRY_TIME = 3;
+
 
 const run = async (user) => {
   await delayHelper.delay((user.index - 1) * DELAY_ACC);
   let isDoneAccount = false;
-  while (!isDoneAccount) {
+  let tryTime = 0;
+  while (tryTime <= TRY_TIME) {
     // Kiểm tra kết nối proxy
     let isProxyConnected = false;
     while (!isProxyConnected) {
@@ -34,9 +38,13 @@ const run = async (user) => {
       continue;
     }
 
-    await taskService.handleTask(user);
+    await MintService.handleMint(user);
     await gameService.handleGame(user);
     await delayHelper.delay(30);
+    tryTime++;
+    if (tryTime === TRY_TIME) {
+      user.log.log(`Đã thử ${TRY_TIME} tài khoản này, bỏ qua tài khoản`);
+    }
   }
 };
 

@@ -5,8 +5,9 @@ import https from "https";
 export class HttpService {
   constructor(log, proxy = null, token) {
     this.baseURL = [
-      "https://www.vanadatahero.com/_vercel/insights/",
-      "https://www.vanadatahero.com/api/"
+      "https://birdx-api.birds.dog/",
+      "https://birdx-api2.birds.dog/",
+      "https://worm.birds.dog/"
     ];
     this.proxy = proxy;
     this.log = log;
@@ -18,7 +19,8 @@ export class HttpService {
       'Accept-Language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
       'Content-Type': 'application/json',
       'Sec-Fetch-Site': 'same-origin',
-      'Referer': 'https://www.vanadatahero.com/home',
+      'Origin': 'https://birdx.birds.dog',
+      'Referer': 'https://birdx.birds.dog/',
       'Sec-Ch-Ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
       'Sec-Ch-Ua-Mobile': '?1',
       'Sec-Ch-Ua-Platform': '"Android"',
@@ -44,7 +46,8 @@ export class HttpService {
     };
 
     if (this.token) {
-      headers["x-telegram-web-app-init-data"] = `${this.token}`;
+      headers["telegramauth"] = `tma ${this.token}`;
+      headers["authorization"] = `tma ${this.token}`;
     }
     const config = {
       headers,

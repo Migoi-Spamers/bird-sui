@@ -11,34 +11,17 @@ class AuthService {
     };
   }
 
-  async getView(user) {
-    try {
-      const { data } = await user.http.get(0, "player");
-      console.log(data);
-      if (data) {
-        return data;
-      } else {
-        throw new Error(`Lấy player thất bại: ${data.message}`);
-      }
-    } catch (error) {
-      user.log.logError(
-        `Lấy layer thất bại: ${error.response?.data?.message}`
-      );
-      return 0;
-    }
-  }
-
   async getPlayer(user) {
     try {
-      const { data } = await user.http.get(1, "player");
+      const { data } = await user.http.get(0, "user");
       if (data) {
         return data;
       } else {
-        throw new Error(`Lấy layer thất bại: ${data.message}`);
+        throw new Error(`Lấy user thất bại: ${data.message}`);
       }
     } catch (error) {
       user.log.logError(
-        `Lấy layer thất bại: ${error.response?.data?.error}`
+        `Lấy user thất bại: ${error.response?.data?.error}`
       );
       return 0;
     }
@@ -73,12 +56,12 @@ class AuthService {
     const token = info.token || null;
     // user.http.updateToken(token);
     fileHelper.saveToken(user.info.id, token);
-    const playerInfo = await this.getPlayer(user);
+    const userInfo = await this.getPlayer(user);
     user.log.log(
       colors.green("Đăng nhập thành công: ") +
       `${user.info.fullName.green}`
     );
-    user.log.log(`Tổng điểm: ${playerInfo.points}`);
+    user.log.log(`Tổng điểm: ${userInfo.balance}`);
   }
 }
 
